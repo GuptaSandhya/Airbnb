@@ -9,7 +9,7 @@ module.exports.renderNewForm = (req, res) => {
     res.render("listing/new.ejs");
 };
 
-module.exports.showListing = (async (req, res) => {
+module.exports.showListing = async (req, res) => {
     let {id} = req.params;
     const listing = await Listing.findById(id)
     .populate({
@@ -26,9 +26,9 @@ module.exports.showListing = (async (req, res) => {
     }
     console.log(listing);
     res.render("listing/show.ejs", {listing});
-});
+};
 
-module.exports.createListing = (async(req, res, next) => {
+module.exports.createListing = async(req, res, next) => {
     //let {title, description, image, price, country, location} = req.body;
     //let listing = req.body.listing;
     let url = req.file.path;
@@ -41,9 +41,9 @@ module.exports.createListing = (async(req, res, next) => {
     await newListing.save();
     req.flash("success", "new listing created!");
     res.redirect("/listing");
-});
+};
 
-module.exports.renderEditForm = (async(req, res) => {
+module.exports.renderEditForm = async(req, res) => {
     let {id} = req.params;
     const listing = await Listing.findById(id);
     if(!listing){
@@ -54,9 +54,9 @@ module.exports.renderEditForm = (async(req, res) => {
     let originalImageUrl = listing.image.url;
     originalImageUrl.replace("/upload","/upload/h_300,w_250");
     res.render("listing/edit.ejs", { listing, originalImageUrl });
-});
+};
 
-module.exports.updateListing = (async(req, res) => {
+module.exports.updateListing = async(req, res) => {
     let { id } = req.params;
     let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
 
@@ -68,12 +68,12 @@ module.exports.updateListing = (async(req, res) => {
     }
     req.flash("success", "listing updated");
     res.redirect(`/listing/${id}`);
-});
+};
 
-module.exports.destroyListing = (async(req, res) => {
+module.exports.destroyListing = async(req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     req.flash("success", "listing deleted!");
     res.redirect("/listing");
-});
+};

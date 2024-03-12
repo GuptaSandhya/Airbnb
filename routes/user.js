@@ -24,6 +24,10 @@ router
     userController.login
     );
 
+router.get("/", (req, res) => {
+    res.redirect("/listing");
+});
+
 router.get("/logout", userController.logout);
 
 
