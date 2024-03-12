@@ -108,6 +108,7 @@ min-height: 100vh;
 
 .btns{
     display: flex;
+    color: #fe424d;
 }
 
 .show-card {
