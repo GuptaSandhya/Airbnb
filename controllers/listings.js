@@ -1,7 +1,10 @@
 const Listing = require("../models/listing");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
-    const allListing = await Listing.find({});
+    const allListing = await Listing.find().sort({_id: -1});
     res.render("listing/index.ejs", {allListing});
 }
 
@@ -31,12 +34,20 @@ module.exports.showListing = async (req, res) => {
 module.exports.createListing = async(req, res, next) => {
     //let {title, description, image, price, country, location} = req.body;
     //let listing = req.body.listing;
+    let response = await geocodingClient
+    .forwardGeocode({
+        query: `${req.body.listing.location},${req.body.listing.country}`,
+        limit: 1,
+    })
+    .send();
     let url = req.file.path;
     let filename = req.file.filename;
 
     const newListing = new Listing(req.body.listing);   
     newListing.owner = req.user._id;
     newListing.image = {url, filename};
+    newListing.geometry = response.body.features[0].geometry;
+
     // // console.log(req.user);
     await newListing.save();
     req.flash("success", "new listing created!");
@@ -45,7 +56,8 @@ module.exports.createListing = async(req, res, next) => {
 
 module.exports.renderEditForm = async(req, res) => {
     let {id} = req.params;
-    const listing = await Listing.findById(id);
+    let listing = await Listing.findById(id);
+    
     if(!listing){
         req.flash("error", "listing you requested for does not existed");
         res.redirect("/listing");
@@ -58,7 +70,17 @@ module.exports.renderEditForm = async(req, res) => {
 
 module.exports.updateListing = async(req, res) => {
     let { id } = req.params;
+    let response = await geocodingClient
+		.forwardGeocode({
+			query: `${req.body.listing.location},${req.body.listing.country}`,
+			limit: 1,
+		})
+		.send();
+	let updateListing = req.body.listing;
     let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
+
+    listing.geometry = response.body.features[0].geometry;
+	await listing.save();
 
     if(typeof req.file !== "undefined") {
     let url = req.file.path;

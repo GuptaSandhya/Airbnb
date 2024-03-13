@@ -8,6 +8,12 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const ExpressError = require("./utils/ExpressError.js");
+
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
@@ -15,9 +21,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
-const listingRouter = require("./routes/listing.js");
-const reviewRouter = require("./routes/review.js");
-const userRouter = require("./routes/user.js");
 
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -25,25 +28,23 @@ main()
 .then(() => {
     console.log("connected to db");
 })
-.catch((err) => {
-    console.log(err);
-})
+.catch((err) => 
+    console.log(err))
 
 async function main() {
-    mongoose.connect(dbUrl);
+    await mongoose.connect(dbUrl);
 }
+
+app.listen(3300, () => {
+    console.log("server is listening to port 3300");
+})
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
-app.use(express.static(path.join(__dirname, "/public")));
-
-// app.get("/", (req, res) => {
-//     res.send("hey, hi!");
-// })
-
+app.use(express.static(path.join(__dirname, "/public/")));
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
@@ -111,10 +112,6 @@ app.use((err, req, res, next) => {
     let {statusCode=500, message="Something went wrong!"} = err;
     res.status(statusCode).render("error.ejs", {message});
     // res.status(statusCode).send(message);
-})
-
-app.listen(3300, () => {
-    console.log("server is listening to port 3300");
 })
 
 // app.get("/testListing", async (req, res) => {

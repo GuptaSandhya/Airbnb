@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user.js");
-const wrapAsync = require("../utils/wrapAsync.js");
+// const User = require("../models/user.js");
+const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
-const { saveRedirectUrl } = require("../middleware.js");
-const userController = require("../controllers/users.js");
+const { saveRedirectUrl, isLoggedIn, validateUser, validaEmail } = require("../middleware.js");
+const userController = require("../controllers/users");
+
+const multer = require('multer');
+const {storage} = require("../cloudConfig.js");
+const upload = multer=({storage});
 
 router
     .route("/signup")

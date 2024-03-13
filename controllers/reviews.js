@@ -7,11 +7,13 @@ module.exports.createReview = (async(req, res) => {
     let newReview = new Review(req.body.review);
 
     newReview.author = req.user._id;
+    newReview.listing = listing._id;
     // console.log(newReview);
     listing.reviews.push(newReview);
     
     await newReview.save();
     await listing.save();
+    console.log("new review saved");
     req.flash("success", "New review created");
     res.redirect(`/listing ${listing._id}`);
 

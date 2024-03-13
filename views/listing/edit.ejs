@@ -1,9 +1,11 @@
 <% layout("/layouts/boilerplate") %><div class="row">
-    <div class="row mt-3">
-    <div class="col-8 offset-2">
-        <br /><br />
+    <!-- <div class="row mt-0">
+    <div class="col-8 offset-2"> -->
+    <div class="row mt-0 mx-auto">
+    <div class="col-md-8 mx-auto">
+    <br /><br />
     <h3>Edit Your Listing</h3>
-    <form method = "POST" action="/listing/<%= listing.id %>?_method=PUT" novalidate
+    <form method = "POST" action="/listing/<%= listing._id %>?_method=PUT" novalidate
         class="needs-validation"
         enctype="multipart/form-data"
         >
@@ -11,28 +13,30 @@
         <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control"
-        required
+         class= "form-control border border-black border-opacity-50" required
         />
-        <div class="invalid-feedback">Title looks good!</div>
+        <div class="valid-feedback">Title looks good!</div>
+        <div class="invalid-feedback">Title should be valid</div>
         </div>
         
         <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
+        <textarea cols="20" rows="3" name="listing[description]" class= "form-control border border-black border-opacity-50" required><%= listing.description %></textarea>
         <div class="invalid-feedback">Please enter short description</div>
         </div>
         
 
         <div class="mb-3">
-            Original Listing Image<br/>
-            <img src = "<%= originalImageUrl %>"/>
+            <label for="image" class="form-label">Original Image Preview</label><br/>
+            <img src = "<%= originalImage %>" alt="Original Image" class="listingImg"/>
         </div>
 
-        <div class="mb-3">
+        <div class=" row mb-3">
         <label for="image" class="form-label">Upload new Image</label>
         <input 
         name="listing[image]" 
-        type="file" class="form-control" />
+        type="file" class= "form-control border border-black border-opacity-50 imageInput" id="verify-image" onchange="previewImage()" />
+        <p id="errorContainer"></p>
         </div>
 
         <div class="row">
