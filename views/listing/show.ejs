@@ -19,10 +19,10 @@
 <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
 
 <div class="btns">
-    <a href = "/listing/<%= listing._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>
+    <a href = "/listing/<%= listing._id %>/edit" class="btn btn-outline-dark col-1 offset-3 edit-btn">Edit</a>
     
     <form method = "POST" action="/listing/<%= listing._id %>?_method=DELETE">
-        <button class="btn btn-dark offset-5">Delete</button>
+        <button class="btn btn-outline-dark offset-5">Delete</button>
     </form>
 </div>
 <% } %>
@@ -31,7 +31,7 @@
     <hr />
     <% if(currUser) { %>
     <h4>Leave a Review</h4>
-    <form action="/listing/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+    <form action="/listing/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
         <!-- <div class="mb-3 mt-3">
             <label for="rating" class="form-label"> Rating </label>
             <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range"/>
