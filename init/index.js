@@ -17,7 +17,7 @@ main()
     console.log(err);
 })
 async function main() {
-    await mongoose.connect(dbUrl);
+    mongoose.connect(dbUrl);
 }
 
 
