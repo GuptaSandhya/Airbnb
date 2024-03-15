@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") %>
 <script>
     const mapToken = "<%= process.env.MAP_TOKEN %>";
-    const listing = <%- JSON.stringfy(listing) %>;
+    const listing = <%- JSON.stringify(listing) %>;
 </script>
 <div class="row mt">
     <div class="col-8 offset-3">
@@ -68,7 +68,7 @@
     <hr />
     <% } %>
 
-    <% if(listing.reviews.length > 0) {
+    <% if(listing.reviews.length > 0) { %>
         <div class="row">
             <p><b>All Reviews</b></p>
             <p>Testing</p>
