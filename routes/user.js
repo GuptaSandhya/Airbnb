@@ -8,7 +8,7 @@ const userController = require("../controllers/users");
 
 const multer = require('multer');
 const {storage} = require("../cloudConfig.js");
-const upload = multer=({storage});
+const upload = multer({storage});
 
 router
     .route("/signup")
