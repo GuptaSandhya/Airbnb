@@ -1,6 +1,6 @@
-// if(process.env.NODE_ENV != "production") {
-//     require("dotenv").config();
-// }
+if(process.env.NODE_ENV != "production") {
+    require("dotenv").config();
+}
 
 const mongoose = require("mongoose");
 const initData = require("./data.js");
@@ -21,39 +21,11 @@ async function main() {
 }
 
 
-let categoryAll = [
-	"Beachfront",
-	"Cabins",
-	"Omg",
-	"Lake",
-	"Design",
-	"Amazing Pools",
-	"Farms",
-	"Amazing Views",
-	"Rooms",
-	"Lakefront",
-	"Tiny Homes",
-	"Countryside",
-	"Treehouse",
-	"Trending",
-	"Tropical",
-	"National Parks",
-	"Casties",
-	"Camping",
-	"Top Of The World",
-	"Luxe",
-	"Iconic Cities",
-	"Earth Homes",
-];
 
 const initDB = async () => {
     await Listing.deleteMany({});
-    initData.data = initData.data.map((obj) => ({...obj, owner: "65c8a0ec3f61c63cc1928dc0",  //65f43ad3d5a41145e6edb480
-    price: obj.price * 25,
-    category: [
-        `${categoryAll[Math.floor(Math.random() * 22)]}`,
-        `${categoryAll[Math.floor(Math.random() * 22)]}`,
-    ],
+    initData.data = initData.data.map((obj) => ({...obj, owner: "65f43ad3d5a41145e6edb480"
+
 }));
     
     await Listing.insertMany(initData.data);
@@ -61,3 +33,37 @@ const initDB = async () => {
 }
 
 initDB();
+
+
+// let categoryAll = [
+// 	"Beachfront",
+// 	"Cabins",
+// 	"Omg",
+// 	"Lake",
+// 	"Design",
+// 	"Amazing Pools",
+// 	"Farms",
+// 	"Amazing Views",
+// 	"Rooms",
+// 	"Lakefront",
+// 	"Tiny Homes",
+// 	"Countryside",
+// 	"Treehouse",
+// 	"Trending",
+// 	"Tropical",
+// 	"National Parks",
+// 	"Casties",
+// 	"Camping",
+// 	"Top Of The World",
+// 	"Luxe",
+// 	"Iconic Cities",
+// 	"Earth Homes",
+// ];
+
+
+
+    // price: obj.price * 25,
+    // category: [
+    //     `${categoryAll[Math.floor(Math.random() * 22)]}`,
+    //     `${categoryAll[Math.floor(Math.random() * 22)]}`,
+    // ],
