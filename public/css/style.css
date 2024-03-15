@@ -118,3 +118,8 @@ min-height: 100vh;
 .navbar-nav ms-auto {
     margin-right: 6rem;
 }
+
+#map {
+    height: 400px;
+    width: 80vh;
+}
