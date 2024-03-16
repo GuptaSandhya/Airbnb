@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") %>
 <script>
     const mapToken = "<%= process.env.MAP_TOKEN %>";
-    const listing = <%- JSON.stringify(listing) %>;
+    const listing = JSON.parse(`<%- JSON.stringify(listing) %>`);
 </script>
 <div class="row mt">
     <div class="col-8 offset-3">
@@ -23,10 +23,10 @@
     <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
 
     <div class="btns">
-        <a href = "/listing/<%= listing._id %>/edit" class="btn btn-outline-dark col-1 offset-3 edit-btn">Edit</a>
+        <a type="button" href = "/listing/<%= listing._id %>/edit" class="btn btn-dark offset-3 edit-btn">Edit</a>
         
-        <form method = "POST" action="/listing/<%= listing._id %>?_method=DELETE">
-            <button class="btn btn-outline-dark offset-5">Delete</button>
+        <form method = "POST" action="/listing/<%= listing._id %>?_method=DELETE" class="needs-validation">
+            <button type="reset"  class="btn btn-dark offset-5">Delete</button>
         </form>
     </div>
     <% } %>
@@ -71,7 +71,6 @@
     <% if(listing.reviews.length > 0) { %>
         <div class="row">
             <p><b>All Reviews</b></p>
-            <p>Testing</p>
             <% for(review of listing.reviews) { %>
                 <div class="card col-5 ms-3 mb-3">
                     <div class="card-body">
@@ -79,16 +78,22 @@
                         <p class="starability-result card-text" data-rating="<%= review.rating %>">
                         </p>
                         <p class="card-text"><%= review.comment %></p>
-
+                    </div>
+                    <div>
+                        <% if(currUser && currUser._id.equals(review.author._id)){ %>
                         <form class="mb-3" method="POST" action="/listing/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                         <button class="btn btn-sm btn-dark">Delete</button>
                         </form>
+                        <% } %>
                     </div>
                 </div>
             <% } %>
         </div>
     <% } %>
     </div>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+
     <div class="col-8 offset-3 mb-3">
         <h3>Where you'll will be</h3>
         <div id="map"></div>
