@@ -9,6 +9,16 @@
     </div>
     <div class="card col-6 offset-3 show-card listing-card">
         <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image"/>
+        <br />
+    <div class="btns">
+        <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
+        <a href = "/listing/<%= listing._id %>/edit" class="btn btn-dark offset-2 edit-btn"><i class="fa-solid fa-pen-to-square"></i></br>Edit</a>
+        
+        <form method = "POST" action="/listing/<%= listing._id %>?_method=DELETE" class="needs-validation">
+            <button type="submit"  class="btn btn-dark offset-5"><i class="fa-regular fa-trash-can"></i>Delete</button>
+        </form>        
+    </div>
+    <% } %>
         <div class="card-body">
           <p class="card-text">Owned by<i><%= listing.owner.username %></i>
           <p class="card-text"><%= listing.description %></p>
@@ -19,17 +29,6 @@
         </div>
     </div>
 
-    <br />
-    <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
-
-    <div class="btns">
-        <a type="button" href = "/listing/<%= listing._id %>/edit" class="btn btn-dark offset-3 edit-btn">Edit</a>
-        
-        <form method = "POST" action="/listing/<%= listing._id %>?_method=DELETE" class="needs-validation">
-            <button type="reset"  class="btn btn-dark offset-5">Delete</button>
-        </form>
-    </div>
-    <% } %>
 
 <div class="col-8 offset-3 mb-3">
     <% if(currUser) { %>
@@ -91,12 +90,10 @@
         </div>
     <% } %>
 </div>
-<script>
     <div class="col-6 offset-3 mb-3">
         <h3>Where you'll will be</h3>
         <div id="map"></div>
     </div>
-</script>
 </div>
 
-<script src = "/js/map.js"></script>
+<!-- <script src = "/js/map.js"></script> -->
